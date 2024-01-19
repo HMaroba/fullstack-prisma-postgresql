@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     const { productName, description, price, image, userId } = body;
 
-    const userExists = await prisma.user.findUnique({
+    const userExists = await prisma.user.findFirst({
       where: { id: userId },
     });
     if (!userExists) {
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     }
 
     const userData = await prisma.product.create({
-      data: { productName, description, price, image },
+      data: { productName, description, price, image, userId },
     });
 
     return NextResponse.json({
