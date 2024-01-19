@@ -11,6 +11,7 @@ const productSchema = z.object({
     .min(1, { message: "Product description is required" }),
   image: z.string().min(1, { message: "Image is required" }),
   price: z.number().min(1, { message: "Price is required" }),
+  userId: z.number().min(1, { message: "Price is required" }),
 });
 
 export async function POST(request: Request) {
@@ -25,7 +26,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const { productName, description, price, image } = body;
+    const { productName, description, price, image, userId } = body;
+
+    const userExists = await prisma.user.findUnique({
+      where: { id : userId },
+    });
+    if (!userExists) {
+      return NextResponse.json({
+        message: "User does not exists",
+        status: 409,
+      });
+    }
 
     const userData = await prisma.product.create({
       data: { productName, description, price, image },
