@@ -14,7 +14,7 @@ model User {
   id          String    @id @default(cuid())
   firstName   String
   lastName    String
-  emailAdress String    @unique
+  emailAddress String    @unique
   products    Product[]
   reviews     Review[]
 }
