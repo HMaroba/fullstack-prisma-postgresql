@@ -17,6 +17,15 @@ const userSchema = z.object({
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    try {
+      userSchema.parse(body);
+    } catch (error) {
+      return NextResponse.json(
+        { error: "Invalid request body", details: error },
+        { status: 400 }
+      );
+    }
+    
     const { firstName, lastName, emailAddress } = body;
     const userExists = await prisma.user.findUnique({
       where: { emailAddress },
