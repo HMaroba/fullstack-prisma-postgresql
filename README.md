@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+## To install prisma run 
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install prisma @prisma/client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## After the installation, we can then initialize Prisma with
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx prisma init
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Every time you update schema you need the following to update your Prisma client.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx prisma generate
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## After creating new model run
+```bash
+npx prisma db push
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Refer to this prisma doc here
 
-## Deploy on Vercel
+https://www.prisma.io/docs/orm/prisma-schema/data-model/models
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## How to migrate existing data to match your Prisma schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Migrating your database over time is an important part of the development cycle. During development, you will need to update your Prisma schema file (for example, to add new fields), then update the data in your development environment’s database, and eventually push both the updated schema and the new data to the production database.
+
+## Referrence here 
+https://www.prisma.io/docs/orm/overview/databases/mongodb#how-to-migrate-existing-data-to-match-your-prisma-schema
+
+
+## After adding a new Field on Schema 
+
+```bash
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+}
+```
+
+if you want to add new field like below make it option or give it default value
+
+```bash
+
+model User {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  email       String
+  phoneNumber String?
+}
+```
+
+giving it default value like below 
+
+Then regenerate your Prisma Client using the npx prisma generate command. Next, update your application to reflect the new field, and redeploy your app.
+
+<p>As the phoneNumber field is optional, you can still query the old users where the phone number has not been defined. The records in the database will be updated "on demand" as the application's users begin to enter their phone number in the new field.</p>
+
+Another option is to add a default value on a required field, for example
+
+```bash
+model User {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  email       String
+  phoneNumber String @default("000-000-0000")
+}
+```
+
+Then when you encounter a missing phoneNumber, the value will be coerced into 000-000-0000.
+
+
+## Examples of Prisma relations 
+
+Open [https://www.prisma.io/docs/orm/prisma-schema/data-model/relations](https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
+
+
+## Examples of Prisma Relation queries 
+
+Open [https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries](https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries)
+
+
+
+
