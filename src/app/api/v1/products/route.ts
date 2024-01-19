@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const { productName, description, price, image, userId } = body;
 
     const userExists = await prisma.user.findUnique({
-      where: { id : userId },
+      where: { id: userId },
     });
     if (!userExists) {
       return NextResponse.json({
@@ -46,6 +46,29 @@ export async function POST(request: Request) {
       status: 201,
       message: "Product created successfully",
       userDetails: userData,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      message: "Something went wrong" + error,
+      status: 500,
+    });
+  }
+}
+
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany();
+    if (!products) {
+      return NextResponse.json({
+        message: "No products available",
+        status: 409,
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      productList: products,
+      status: 200,
     });
   } catch (error) {
     return NextResponse.json({
