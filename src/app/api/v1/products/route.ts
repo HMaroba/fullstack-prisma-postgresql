@@ -11,7 +11,7 @@ const productSchema = z.object({
     .min(1, { message: "Product description is required" }),
   image: z.string().min(1, { message: "Image is required" }),
   price: z.number().min(1, { message: "Price is required" }),
-  userId: z.number().min(1, { message: "Price is required" }),
+  userId: z.string().min(1, { message: "User id is required" }),
 });
 
 export async function POST(request: Request) {
