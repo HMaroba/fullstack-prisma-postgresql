@@ -3,7 +3,11 @@ import { prisma } from "../auth/register/route";
 
 export async function GET() {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        products: true,
+      },
+    });
     if (!users) {
       return NextResponse.json({
         message: "No users available",

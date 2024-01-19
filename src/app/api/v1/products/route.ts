@@ -25,7 +25,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
+    await prisma.$connect();
+    
     const { productName, description, price, image, userId } = body;
 
     const userExists = await prisma.user.findFirst({
