@@ -85,6 +85,9 @@ Open [https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries](htt
 ## Shared ui components
 https://ui.shadcn.com/docs/installation/next
 
+## Vercel ui components ai
+https://v0.dev/
+
 
 
 
