@@ -82,6 +82,10 @@ Open [https://www.prisma.io/docs/orm/prisma-schema/data-model/relations](https:/
 
 Open [https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries](https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries)
 
+## Shared ui components
+https://ui.shadcn.com/docs/installation/next
+
+
 
 
 
