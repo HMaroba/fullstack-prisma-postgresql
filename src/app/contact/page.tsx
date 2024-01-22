@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Component() {
   return (
-    <Card className="mx-auto max-w-md">
+    <Card className="mx-auto max-w-md mt-10">
       <CardHeader>
         <CardTitle className="text-xl">Contact Us</CardTitle>
         <CardDescription>
