@@ -62,7 +62,7 @@ export async function PUT(
 ) {
   const { id } = params;
   try {
-    const { firstName, lastName } = await request.json();
+    const { firstName, lastName, phoneNumber } = await request.json();
 
     const userId = await prisma.user.findFirst({
       where: { id: String(id) },
@@ -77,10 +77,13 @@ export async function PUT(
 
     await prisma.user.update({
       where: { id: String(id) },
-      data: { firstName, lastName },
+      data: { firstName, lastName, phoneNumber },
     });
 
-    return NextResponse.json({ msg: "Profile updated successfully" });
+    return NextResponse.json({
+      message: "Profile updated successfully",
+      success: true,
+    });
   } catch (error) {
     return new NextResponse("Something went wrong" + error, { status: 500 });
   }
