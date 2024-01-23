@@ -1,4 +1,4 @@
-import {  NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -14,15 +14,15 @@ export async function GET(
     });
 
     const userId = await prisma.user.findFirst({
-        where: { id: String(id) },
+      where: { id: String(id) },
+    });
+
+    if (!userId) {
+      return NextResponse.json({
+        message: "User does not exists",
+        success: false,
       });
-  
-      if (!userId) {
-        return NextResponse.json({
-          message: "User does not exists",
-          success: false,
-        });
-      }
+    }
 
     return NextResponse.json(users);
   } catch (error) {
@@ -62,7 +62,7 @@ export async function PUT(
 ) {
   const { id } = params;
   try {
-    const { name } = await request.json();
+    const { firstName, lastName } = await request.json();
 
     const userId = await prisma.user.findFirst({
       where: { id: String(id) },
@@ -77,7 +77,7 @@ export async function PUT(
 
     await prisma.user.update({
       where: { id: String(id) },
-      data: { name },
+      data: { firstName, lastName },
     });
 
     return NextResponse.json({ msg: "Profile updated successfully" });
