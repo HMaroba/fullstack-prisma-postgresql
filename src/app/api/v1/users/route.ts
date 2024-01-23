@@ -35,7 +35,7 @@ export async function PUT(request: Request) {
     const { firstName, lastName, id } = body;
 
     const userExists = await prisma.user.findUnique({
-      where: { id: String(id) },
+      where: { id: id },
     });
 
     if (!userExists) {
@@ -47,7 +47,7 @@ export async function PUT(request: Request) {
 
     const updateUser = await prisma.user.update({
       data: { firstName, lastName },
-      where: id,
+      where: {id},
     });
     return NextResponse.json({
       success: true,
