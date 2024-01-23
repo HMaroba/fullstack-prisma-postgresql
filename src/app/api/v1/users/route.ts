@@ -34,7 +34,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { firstName, lastName, phoneNumber, id } = body;
 
-    const userExists = await prisma.user.findUnique({ where: id });
+    const userExists = await prisma.user.findUnique({ where: {id : id} });
 
     if (!userExists) {
       return NextResponse.json({
@@ -54,7 +54,7 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     return NextResponse.json({
-      message: "Something went wrong try again",
+      message: "Something went wrong try again" +error,
       success: false,
       status: 500,
     });
