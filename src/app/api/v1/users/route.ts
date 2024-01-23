@@ -32,9 +32,11 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, phoneNumber, id } = body;
+    const { firstName, lastName, id } = body;
 
-    const userExists = await prisma.user.findUnique({ where: {id : id} });
+    const userExists = await prisma.user.findUnique({
+      where: { id: String(id) },
+    });
 
     if (!userExists) {
       return NextResponse.json({
@@ -44,7 +46,7 @@ export async function PUT(request: Request) {
     }
 
     const updateUser = await prisma.user.update({
-      data: { firstName, lastName, phoneNumber },
+      data: { firstName, lastName },
       where: id,
     });
     return NextResponse.json({
@@ -54,7 +56,7 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     return NextResponse.json({
-      message: "Something went wrong try again" +error,
+      message: "Something went wrong try again" + error,
       success: false,
       status: 500,
     });
