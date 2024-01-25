@@ -46,7 +46,17 @@ export async function PUT(
   try {
     const body = await request.json();
 
-    const {};
+    const { productName, description, price } = body;
+
+    const updateResponse = await prisma.product.update({
+      data: { productName, description, price },
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: updateResponse,
+    });
   } catch (error) {
     return NextResponse.json({
       message: "Something went wrong" + error,
