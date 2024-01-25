@@ -2,12 +2,9 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET({ params }: { params: { id: string } }) {
   const { id } = params;
-  console.log(params);
+
   try {
     await prisma.$connect();
 
@@ -55,6 +52,7 @@ export async function PUT(
 
     return NextResponse.json({
       success: true,
+      message: "Product updated successfully",
       data: updateResponse,
     });
   } catch (error) {
