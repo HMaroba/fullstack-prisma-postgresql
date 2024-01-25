@@ -27,8 +27,20 @@ export async function GET(
     });
     return NextResponse.json({
       status: 200,
-      productData: "response",
+      productData: response,
     });
+  } catch (error) {
+    return NextResponse.json({
+      message: "Something went wrong" + error,
+      status: 500,
+    });
+  }
+}
+
+export async function PUT({ params }: { params: { id: string } }) {
+  const { id } = params;
+
+  try {
   } catch (error) {
     return NextResponse.json({
       message: "Something went wrong" + error,

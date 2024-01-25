@@ -15,7 +15,7 @@ model User {
   firstName    String
   lastName     String
   emailAddress String    @unique
-  phoneNumber  String    @unique @default("000-000-0000")
+  phoneNumber  String?
   products     Product[]
   reviews      Review[]
 }
@@ -27,7 +27,7 @@ model Product {
   image       String
   price       Int
   review      Review[]
-  users        User?    @relation(fields: [userId], references: [id])
+  users       User?    @relation(fields: [userId], references: [id])
   userId      String?
 }
 
