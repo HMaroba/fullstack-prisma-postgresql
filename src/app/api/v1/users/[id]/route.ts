@@ -7,6 +7,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
+  console.log(params);
 
   try {
     const users = await prisma.user.findFirst({
