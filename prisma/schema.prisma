@@ -20,6 +20,19 @@ model User {
   reviews      Review[]
 }
 
+model Employee {
+  id         String     @id @default(cuid())
+  first_name String
+  last_name  String
+  accounts   Accounts[]
+}
+
+model Accounts {
+  id       String    @id @default(cuid())
+  employee Employee? @relation(fields: [memberId], references: [id])
+  memberId   String?
+}
+
 model Product {
   id          String   @id @default(cuid())
   productName String
