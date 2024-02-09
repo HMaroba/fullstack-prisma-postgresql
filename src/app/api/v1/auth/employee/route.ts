@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../register/route";
 
-export async function Post(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { first_name, last_name } = await request.json();
 
