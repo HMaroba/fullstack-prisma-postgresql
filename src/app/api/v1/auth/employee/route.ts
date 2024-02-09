@@ -30,3 +30,20 @@ export async function POST(request: NextRequest) {
     });
   }
 }
+
+export async function GET() {
+  try {
+    const getEmployees = await prisma.employee.findMany();
+
+    return NextResponse.json({
+      success: true,
+      data: getEmployees,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      message: "Something went wrong",
+      status: 500,
+    });
+  }
+}
