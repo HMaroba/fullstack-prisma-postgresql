@@ -35,9 +35,15 @@ export async function GET() {
   try {
     const getEmployees = await prisma.employee.findMany();
 
+    const employeesAccounts = await prisma.employee.findMany({
+      include: {
+        accounts: true,
+      },
+    });
+
     return NextResponse.json({
       success: true,
-      data: getEmployees,
+      data: employeesAccounts,
     });
   } catch (error) {
     return NextResponse.json({
