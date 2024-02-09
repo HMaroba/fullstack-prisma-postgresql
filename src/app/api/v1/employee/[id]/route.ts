@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../auth/register/route";
 export async function GET({ params }: { params: { id: string } }) {
+  console.log(params);
   const { id } = params;
+
   try {
+    await prisma.$connect();
+
     const userAccount = await prisma.accounts.findUnique({
       where: { id },
     });
