@@ -5,6 +5,16 @@ export async function POST(request: NextRequest) {
   try {
     const { first_name, last_name, email, accounts } = await request.json();
 
+    const userExits = await prisma.employee.findUnique({ where: {email}});
+
+    if (userExits) {
+      NextResponse.json({
+        success : false,
+        message : 'User with this email address exists',
+        status : 409,
+      })
+    }
+
     const employeeData = await prisma.employee.create({
       data: {
         first_name,
