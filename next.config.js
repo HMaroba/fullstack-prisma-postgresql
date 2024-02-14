@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-const withNextra = require("nextra")({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.jsx",
-});
-
-// If you have other Next.js configurations, you can pass them as the parameter:
-// module.exports = withNextra({ /* other next.js config */ })
-
 module.exports = nextConfig;
+
+// import withNextra from "nextra";
+
+// const nextConfig = {};
+
+// export default withNextra({
+//   theme: "nextra-theme-docs",
+//   themeConfig: "./theme.config.tsx",
+// })(nextConfig);

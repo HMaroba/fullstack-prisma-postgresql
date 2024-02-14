@@ -16,6 +16,7 @@
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "express-rate-limit": "^7.1.5",
     "next": "14.0.4",
     "nextra": "^2.13.3",
     "nextra-theme-docs": "^2.13.3",

@@ -1,18 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../register/route";
+import rateLimit from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // limit each IP to 5 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+});
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "1mb",
+    },
+  },
+};
 
 export async function POST(request: NextRequest) {
   try {
     const { first_name, last_name, email, accounts } = await request.json();
 
-    const userExits = await prisma.employee.findUnique({ where: {email}});
+    const userExits = await prisma.employee.findUnique({ where: { email } });
 
     if (userExits) {
       NextResponse.json({
-        success : false,
-        message : 'User with this email address exists',
-        status : 409,
-      })
+        success: false,
+        message: "User with this email address exists",
+        status: 409,
+      });
     }
 
     const employeeData = await prisma.employee.create({
@@ -25,7 +40,6 @@ export async function POST(request: NextRequest) {
         },
       },
     });
-    
 
     return NextResponse.json({
       success: true,
@@ -36,13 +50,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: "Something went wrong" +error,
+      message: "Something went wrong" + error,
       status: 500,
     });
   }
 }
 
-export async function GET() {
+export const GET = limiter(async function () {
   try {
     const getEmployees = await prisma.employee.findMany();
 
@@ -63,4 +77,4 @@ export async function GET() {
       status: 500,
     });
   }
-}
+});
