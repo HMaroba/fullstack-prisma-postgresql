@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../register/route";
-import rateLimit from "express-rate-limit";
+import { NextApiResponse } from "next";
+import rateLimit from "@/app/utils/rate-limit";
 
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 5, // limit each IP to 5 requests per windowMs
-  message: "Too many requests from this IP, please try again later.",
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500, // Max 500 users per second
 });
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "1mb",
-    },
-  },
-};
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,8 +48,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export const GET = limiter(async function () {
+export async function GET(res: NextApiResponse) {
   try {
+    await limiter.check(res, 1, "CACHE_TOKEN"); // 10 requests per minute
     const getEmployees = await prisma.employee.findMany();
 
     const employeesAccounts = await prisma.employee.findMany({
@@ -73,8 +66,8 @@ export const GET = limiter(async function () {
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: "Something went wrong",
+      message: "Something went wrong" +error,
       status: 500,
     });
   }
-});
+}
